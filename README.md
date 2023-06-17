@@ -23,7 +23,7 @@
   <h2>Configuração</h2>
   <ol>
     <li>Crie um banco de dados chamado "bancoTeste".</li>
-    <li>Execute o script fornecido no arquivo "script.sql" para criar as tabelas e inserir dados de exemplo.</li>
+    <li>Execute o script fornecido no arquivo "sistemaescolar.sql" para criar as tabelas e inserir dados de exemplo.</li>
   </ol>
   <h2>Uso</h2>
   <p>Você pode usar esse sistema para gerenciar informações escolares como turmas, disciplinas, alunos, matrículas e avaliações. Utilize as consultas SQL para obter, inserir, atualizar ou excluir registros nas tabelas correspondentes.</p>
