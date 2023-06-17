@@ -74,24 +74,26 @@ INSERT INTO aluno (nome, dataNascimento, genero) VALUES ('João', '2005-02-10', 
 INSERT INTO aluno (nome, dataNascimento, genero) VALUES ('Maria', '2006-05-15', 'Feminino');
 INSERT INTO aluno (nome, dataNascimento, genero) VALUES ('Pedro', '2005-12-03', 'Masculino');
 
--- Criação do trigger
+-- Criação do trigger atualizado
 DELIMITER //
 CREATE TRIGGER adiciona_turno BEFORE INSERT ON matricula
 FOR EACH ROW
 BEGIN
     DECLARE turno VARCHAR(10);
-    
-    SELECT CASE
-        WHEN NEW.idTurma = 1 THEN 'Manhã'
-        WHEN NEW.idTurma = 2 THEN 'Tarde'
-        WHEN NEW.idTurma = 3 THEN 'Noite'
+    DECLARE primeiro_numero INT;
+
+    SET primeiro_numero = (SELECT numero FROM turma WHERE idTurma = NEW.idTurma);
+
+    SET turno = CASE primeiro_numero
+        WHEN 1 THEN 'Manhã'
+        WHEN 2 THEN 'Tarde'
+        WHEN 3 THEN 'Noite'
         ELSE 'Indefinido'
-    END INTO turno;
-    
+    END;
+
     SET NEW.turno = turno;
 END //
 DELIMITER ;
-
 
 -- Inserindo valores na tabela "matricula"
 INSERT INTO matricula (idAluno, idTurma) VALUES (1, 1);
