@@ -33,6 +33,7 @@ CREATE TABLE matricula (
     idMatricula INT NOT NULL AUTO_INCREMENT,
     idAluno INT NOT NULL,
     idTurma INT NOT NULL,
+    turno VARCHAR(10),
     FOREIGN KEY (idAluno) REFERENCES aluno(idAluno),
     FOREIGN KEY (idTurma) REFERENCES turma(idTurma),
     PRIMARY KEY (idMatricula)
@@ -72,6 +73,25 @@ INSERT INTO disciplina (idDisciplina, idTurma) VALUES (3, 3);
 INSERT INTO aluno (nome, dataNascimento, genero) VALUES ('João', '2005-02-10', 'Masculino');
 INSERT INTO aluno (nome, dataNascimento, genero) VALUES ('Maria', '2006-05-15', 'Feminino');
 INSERT INTO aluno (nome, dataNascimento, genero) VALUES ('Pedro', '2005-12-03', 'Masculino');
+
+-- Criação do trigger
+DELIMITER //
+CREATE TRIGGER adiciona_turno BEFORE INSERT ON matricula
+FOR EACH ROW
+BEGIN
+    DECLARE turno VARCHAR(10);
+    
+    SELECT CASE
+        WHEN NEW.idTurma = 1 THEN 'Manhã'
+        WHEN NEW.idTurma = 2 THEN 'Tarde'
+        WHEN NEW.idTurma = 3 THEN 'Noite'
+        ELSE 'Indefinido'
+    END INTO turno;
+    
+    SET NEW.turno = turno;
+END //
+DELIMITER ;
+
 
 -- Inserindo valores na tabela "matricula"
 INSERT INTO matricula (idAluno, idTurma) VALUES (1, 1);
